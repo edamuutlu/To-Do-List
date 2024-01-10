@@ -12,6 +12,6 @@ built using:
 - `cd spring-boot-todo-application`
 - open in favorite editor, or
 - `mvnw spring-boot:run`
-- open http://localhost:9090 and TODO away!
+- open http://localhost:8080 and TODO away!
 
 
