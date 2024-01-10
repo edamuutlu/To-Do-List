@@ -17,12 +17,17 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.springboottodoapplication.models.Customer;
+import com.springboottodoapplication.models.TodoItem;
 import com.springboottodoapplication.repositories.ICustomerRepository;
 import com.springboottodoapplication.repositories.ITodoItemRepository;
+import com.springboottodoapplication.services.TodoItemService;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 @Controller
@@ -33,6 +38,9 @@ public class LoginController {
 	
 	@Autowired
     private ITodoItemRepository todoItemRepository;
+	
+	@Autowired
+    private TodoItemService todoItemService;
 
 	private final Logger logger = LoggerFactory.getLogger(LoginController.class);
 	
@@ -44,7 +52,7 @@ public class LoginController {
 
 	@GetMapping("/")
 	public String home() {
-		return "index";
+		return "login";
 	}
 
 	@GetMapping("/index")
@@ -91,11 +99,13 @@ public class LoginController {
         
         Customer customer = customerRepository.findByUsername(username);
         
-        model.addAttribute("todoItems", todoItemRepository.getCustomerById(customer.getCustomerId()));     
-        model.addAttribute("today", Instant.now().atZone(ZoneId.systemDefault()).toLocalDate().getDayOfWeek());             
+        List <TodoItem> todoItems = todoItemRepository.getCustomerById(customer.getCustomerId());
+        model.addAttribute("todoItems", todoItems); 
+        model.addAttribute("today", Instant.now().atZone(ZoneId.systemDefault()).toLocalDate().getDayOfWeek()); 
+        model.addAttribute("username", customer.getUsername());
         model.addAttribute("customer", customer);
         
-        return "userPage";
+        return "todolist";
     }
 	
 	@GetMapping("/customerRegister")
@@ -158,6 +168,29 @@ public class LoginController {
 		customer.setStatus(1);
 		customerRepository.save(customer);
 		return "redirect:/userPage/" + myCustomer.getUsername();
+	}
+	
+	// Customer Information
+
+	@RequestMapping("/editCustomer/{customerId}")
+	public String editCustomer(@PathVariable("customerId") int id, Model model) {
+
+		Customer customer = customerRepository.getCustomerById(id);
+		model.addAttribute("customer", customer);
+		return "customerEdit";
+	}
+
+	@RequestMapping(path = { "/deleteCustomer/{customerId}" }, method = RequestMethod.GET)
+	@Transactional
+	public String deleteCustomer(@PathVariable("customerId") int customerId, Model model) {
+		
+		Customer customer = customerRepository.getCustomerById(customerId);
+		System.out.println("silineccek customer: "+customer);
+		customerRepository.delete(customer);
+		todoItemService.deleteByCustomerId(customerId);
+		
+		return "/login";
+
 	}
 }
 

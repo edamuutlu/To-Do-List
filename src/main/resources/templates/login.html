@@ -12,7 +12,7 @@
     <!-- İcon -->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <!-- CSS -->
-    <link rel="stylesheet" th:href="@{/css/register.css}" href="src/main/resources/static/css/register.css">
+    <link rel="stylesheet" th:href="@{/css/user.css}" href="src/main/resources/static/css/user.css">
     <!-- Angularjs -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
     
@@ -102,10 +102,10 @@
                             Don't have an account? <a href="/customerRegister">Register</a>
                          </div>
                         <!-- alert -->
-<!--                        <div class="alert alert-danger" role="alert" th:if="${showWrongPasswordAlert}"-->
-<!--							ng-show="${!showWrongPasswordAlert}"> This password is wrong! </div>-->
-<!--						<div class="alert alert-danger" role="alert" th:if="${showAbsentUserAlert}"-->
-<!--							ng-show="${!showAbsentUserAlert}"> This username is not registered! </div>-->
+                        <div class="alert alert-danger" role="alert" th:if="${showWrongPasswordAlert}"
+							ng-show="${!showWrongPasswordAlert}"> This password is wrong! </div>
+						<div class="alert alert-danger" role="alert" th:if="${showAbsentUserAlert}"
+							ng-show="${!showAbsentUserAlert}"> This username is not registered! </div>
                     </form>
                 </div>
             </div>

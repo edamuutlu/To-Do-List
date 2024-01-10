@@ -2,12 +2,12 @@ package com.springboottodoapplication.repositories;
 
 import java.util.List;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 
 import com.springboottodoapplication.models.Customer;
 
-public interface ICustomerRepository extends CrudRepository<Customer, Long>{
+public interface ICustomerRepository extends JpaRepository<Customer, Long>{
 	
 	@Query("FROM Customer WHERE status=?1")
 	List<Customer> findByStatus(int status);
@@ -26,5 +26,6 @@ public interface ICustomerRepository extends CrudRepository<Customer, Long>{
 	
 	@Query("SELECT c FROM Customer c WHERE c.status = :status AND c.username = :username")
 	List<Customer> findByStatusAndUsername(int status, String username);
+
 
 }

@@ -1,92 +1,110 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" xmlns:th="https://www.thymeleaf.com">
 
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Customer Registration Form</title>
-		<link rel="icon" type="image/x-icon" th:href="@{/img/Happy-favicon.png}" href="/src/main/resources/static/img/Happy-favicon.png">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Customer Edit</title>
+	<link rel="icon" type="image/x-icon" th:href="@{/img/Happy-favicon.png}" href="/src/main/resources/static/img/Happy-favicon.png">
 
-	 <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://getbootstrap.com/docs/5.2/assets/css/docs.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- İcon -->
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <!-- CSS -->
-    <link rel="stylesheet" th:href="@{/css/user.css}" href="src/main/resources/static/css/user.css">
-    <!-- Angularjs -->
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
-	<!-- jQuery -->
+	<!-- Bootsrapt -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://getbootstrap.com/docs/5.2/assets/css/docs.css" rel="stylesheet">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+	<!-- İcon -->
+	<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+	<!-- CSS -->
+	<link rel="stylesheet" th:href="@{/css/register.css}" href="src/main/resources/static/css/register.css">
+	<!-- Angularjs -->
+	<script src="js/angular.min.js"></script>
+	<!-- AngularJS ve jQuery kütüphaneleri -->
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 </head>
 
-<body ng-app="myApp" ng-controller="registerFormController">
+<body ng-app="myApp" ng-controller="customerEditFormController">
+
 	<!--Navbar-->
-	<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-        <div class="container-fluid px-5">
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
-            <ul class="navbar-nav mb-2 mb-lg-0 text-center">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/#">
-                    <i class='bx bxs-home'></i>
-                    Home
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/#">Products</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/#">Contact Us</a>
-              </li>
-            </ul>
-          </div>
-          <div class="operations">
-            <a href="/login">
-                <i class='bx bxs-user-circle login-icon'></i>
-                Login
-            </a>
-            <a href="/customerRegister">
-                <i class='bx bxs-user-plus register-icon'></i>
-                Register
-            </a>
-          </div>
-        </div>
-      </nav>
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<div class="container-fluid px-5">
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+				data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
+				<ul class="navbar-nav mb-2 mb-lg-0 text-center">
+					<li class="nav-item">
+						<a class="nav-link active" aria-current="page" href="/#">
+							<i class='bx bxs-home'></i>
+							Home
+						</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/#">Products</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/#">Contact Us</a>
+					</li>
+				</ul>
+			</div>
+			<div class="operations">
+				<a th:href="@{'/userPage/' + ${customer.username}}">
+					<i class='bx bxs-user-circle user-icon'></i>
+					<span th:text="${customer.username}"></span>
+				</a>
+				<a href="/index">
+					<i class='bx bx-log-out exit-icon'></i>
+					Log Out
+				</a>
+			</div>
+		</div>
+	</nav>
 	<!--	End Navbar-->
-	
+
+
 	<div class="page-wrapper bg-gra-02">
 		<div class="wrapper">
 			<div class="card">
 				<div class="card-body">
-					<h2 class="title mb-4">Customer Registration Form</h2>
-					<form th:action="@{/customerRegister}" th:object="${customer}" method="post" ng-submit="register()"
+					<h2 class="title mb-4">Customer Edit Form</h2>
+					<form th:action="@{/save}" th:object="${customer}" method="post" ng-submit="register()"
 						name="myForm">
-
-						<!-- First -Last Name -->
+						<input type="hidden" name="customerId" th:value="${customer.customerId}" />
+						<!-- Fist -Last Name -->
+						
+						<script th:inline="javascript">
+							var firstname = /*[[${customer.firstname}]]*/ '';
+							var lastname = /*[[${customer.lastname}]]*/ '';
+							var tc = /*[[${customer.tc}]]*/ '';
+							var email = /*[[${customer.email}]]*/ '';
+							var username = /*[[${customer.username}]]*/ '';
+							var password = /*[[${customer.password}]]*/ '';
+							var birth = /*[[${customer.birth}]]*/ '';
+							var phoneNumber = /*[[${customer.phoneNumber}]]*/ '';
+							var gender = /*[[${customer.phoneNumber}]]*/ '';
+						</script>
+						
 						<div class="row">
 							<div class="col-2">
 								<div class="input-group">
 									<label class="label">
 										<div class="txt">First Name</div>
 										<div class="warning"
-											ng-show="myForm.firstname.$error.required && myForm.firstname.$touched">
+											ng-show="myForm.firstname.$error.required && myForm.firstname.$dirty">
 											<i class='bx bxs-error-alt'></i>
-											<p>Required</p>
+											Required.
 										</div>
 										<div class="warning"
 											ng-show="myForm.firstname.$error.pattern && myForm.firstname.$dirty">
 											<i class='bx bxs-error-alt'></i>
-											<p>Only letters can be used</p>
+											Only letters can be used.
 										</div>
 									</label>
-									<input type="text" ng-model="firstname" ng-pattern="/^[a-zA-ZçÇğĞıİöÖşŞüÜ\s]*$/"
-										ng-required="true" class="input-4" id="firstname" name="firstname"
-										maxlength="50" onkeypress="return /[a-zA-ZçÇğĞıİöÖşŞüÜ\s]/i.test(event.key)">
+									<input type="text" ng-model="firstname" ng-pattern="/^[a-zA-Z\s]*$/" ng-required="true" class="input-4"
+										id="firstname" name="firstname" maxlength="50"
+										onkeypress="return /[a-zA-ZçÇğĞıİöÖşŞüÜ\s]/i.test(event.key)">
 								</div>
 							</div>
 							<div class="col-2">
@@ -94,18 +112,18 @@
 									<label class="label">
 										<div class="txt">Last Name</div>
 										<div class="warning"
-											ng-show="myForm.lastname.$error.required && myForm.lastname.$touched">
+											ng-show="myForm.lastname.$error.required && myForm.lastname.$dirty">
 											<i class='bx bxs-error-alt'></i>
-											<p>Required</p>
+											Required.
 										</div>
 										<div class="warning"
 											ng-show="myForm.lastname.$error.pattern && myForm.lastname.$dirty">
 											<i class='bx bxs-error-alt'></i>
-											<p>Only letters can be used</p>
+											Only letters can be used.
 										</div>
 									</label>
-									<input type="text" ng-model="lastname" ng-pattern="/^[a-zA-ZçÇğĞıİöÖşŞüÜ\s]*$/"
-										ng-required="true" class="input-4" id="lastname" name="lastname" maxlength="50"
+									<input type="text" ng-model="lastname" ng-pattern="/^[a-zA-Z\s]*$/" ng-required="true" class="input-4"
+										id="lastname" name="lastname" maxlength="50"
 										onkeypress="return /[a-zA-ZçÇğĞıİöÖşŞüÜ\s]/i.test(event.key)">
 								</div>
 							</div>
@@ -116,31 +134,31 @@
 								<div class="input-group">
 									<label class="label">
 										<div class="txt">T.C.</div>
-										<div class="warning" ng-show="myForm.tc.$error.required && myForm.tc.$touched">
+										<div class="warning" ng-show="myForm.tc.$error.required && myForm.tc.$dirty">
 											<i class='bx bxs-error-alt'></i>
-											<p>Required</p>
+											Required.
 										</div>
 										<div class="warning" ng-show="myForm.tc.$error.pattern && myForm.tc.$dirty">
 											<i class='bx bxs-error-alt'></i>
-											<p>T.C. must have 11 digits</p>
+											T.C. must have 11 digits.
 										</div>
 									</label>
-									<input type="number" ng-model="tc" ng-required="true" class="input-4" id="tc"
-										name="tc" ng-pattern="/^\d{11}$/"
-										onKeyPress="if(this.value.length==11) return false;">
+									<input type="number" ng-model="tc" ng-required="true" class="input-4" id="tc" name="tc"
+										ng-pattern="/^\d{11}$/" onKeyPress="if(this.value.length==11) return false;"
+										th:value="${customer.tc}">
 								</div>
 							</div>
 							<div class="col-2">
 								<div class="input-group">
 									<label class="label">
 										<div class="txt">Email</div>
-										<div class="warning" ng-show="myForm.email.$invalid && myForm.email.$touched">
+										<div class="warning" ng-show="myForm.email.$invalid && myForm.email.$dirty">
 											<i class='bx bxs-error-alt'></i>
-											<p>Enter a valid email address</p>
+											Enter a valid email address.
 										</div>
 									</label>
-									<input type="email" ng-model="email" ng-required="true" class="input-4" id="email"
-										name="email">
+									<input type="email" ng-model="email" ng-required="true" class="input-4" id="email" name="email"
+										th:value="${customer.email}">
 								</div>
 							</div>
 						</div>
@@ -156,8 +174,8 @@
 											<p>Required</p>
 										</div>
 									</label>
-									<input type="text" ng-model="username" ng-required="true" class="input-4"
-										id="username" name="username" maxlength="50">
+									<input type="text" ng-model="username" ng-required="true" class="input-4" id="username" name="username"
+										maxlength="50" th:value="${customer.username}">
 								</div>
 							</div>
 							<div class="col-2">
@@ -180,8 +198,8 @@
 											<p>{{ passwordError }}</p>
 										</div>
 									</label>
-									<input type="password" ng-model="password" ng-required="true" id="password"
-										class="input-4" name="password" ng-change="validatePassword()">
+									<input type="password" ng-model="password" ng-required="true" id="password" class="input-4"
+										name="password" ng-change="validatePassword()" th:value="${customer.password}">
 									<button type="button" class="hide-pass" onclick="togglePasswordVisibility()">
 										<i class='bx bxs-hide' id="hideIcon" style="display: none;"></i>
 										<i class='bx bx-show' id="showIcon"></i>
@@ -200,8 +218,8 @@
 											<p>Required</p>
 										</div>
 									</label>
-									<input type="date" ng-model="birth" ng-required="true" class="input-4" name="birth"
-										id="birth">
+									<input type="date" ng-model="birth" ng-required="true" class="input-4" name="birth" id="birth"
+										th:value="${customer.birth}">
 								</div>
 							</div>
 							<div class="col-2">
@@ -211,21 +229,22 @@
 										<div class="warning"
 											ng-show="myForm.phoneNumber.$error.required && myForm.phoneNumber.$touched">
 											<i class='bx bxs-error-alt'></i>
-											<p>Required</p>
+											Required.
 										</div>
 										<div class="warning"
 											ng-show="myForm.phoneNumber.$error.pattern && myForm.phoneNumber.$dirty">
 											<i class='bx bxs-error-alt'></i>
-											<p>Phone number must have 11 digits.</p>
+											Phone number must have 11 digits.
 										</div>
 									</label>
 									<input type="number" ng-model="phoneNumber" ng-required="true" class="input-4"
 										name="phoneNumber" id="phoneNumber" ng-pattern="/^\d{11}$/"
-										onKeyPress="if(this.value.length==11) return false;">
+										onKeyPress="if(this.value.length==11) return false;"
+										th:value="${customer.phoneNumber}">
 								</div>
 							</div>
 						</div>
-						 <!-- Gender -->
+						<!-- Gender -->
                         <div class="row mt-1">
                             <div class="col-12">
                                 <div class="input-group">
@@ -238,52 +257,37 @@
                                     </label>
                                     <div class="radio-buttons-gender">
                                         <label>
-                                            <input type="radio" name="gender" ng-model="gender" ng-required="true" value="M"> Male
-                                        </label>
-                                        <label>
-                                            <input type="radio" name="gender" ng-model="gender" ng-required="true" value="F"> Female
-                                        </label>
+											<input type="radio" name="gender"
+												th:checked="${customer.gender == 'M'}" ng-required="true"
+												value="M"> Male
+										</label>
+										<label>
+											<input type="radio" name="gender"
+												th:checked="${customer.gender == 'F'}" ng-required="true"
+												value="F"> Female
+										</label>
                                     </div>
                                 </div>
                             </div>
                         </div>
-				
-						<!-- Kabul Metni -->
-						<div class="agree">
-							<label>
-								<input type="checkbox" name="terms" ng-model="terms" ng-required="true" tabindex="1">
-								<span class="terms-text">I understand and agree to the
-									<span>Formstack Privacy Policy</span>,
-									<span>Software Services Agreement</span>
-									and
-									<span>Acceptable Use Policy</span>.
-								</span>
-							</label>
-							<span class="termsValid" ng-show="myForm.terms.$error.required">* Please agree to the terms
-								and conditions.</span>
-						</div>
+
 						<!-- Submit -->
 						<div class="button">
 							<button class="btn btn-submit">Submit</button>
 						</div>
+						<div class="button" type="button" ng-disabled="myForm.$invalid">
+                            <a th:href="@{'/userPage/' + ${customer.username}}" class="btn btn-cancel">Cancel</a>
+                        	</div>
 						<!-- alert -->
-						<div class="alert alert-warning" role="alert" th:if="${showTcAlert}" ng-show="${!showTcAlert}">
-							This TC number is already
-							registered! </div>
-						<div class="alert alert-warning" role="alert" th:if="${showEmailAlert}"
-							ng-show="${!showTcAlert}"> This Email address is already
-							registered! </div>
-						<div class="alert alert-warning" role="alert" th:if="${showUsernameAlert}"
-							ng-show="${!showUsernameAlert}"> This Username is already
-							registered! </div>
+						<div class="alert alert-warning" role="alert" th:if="${showTcAlert}">This TC number is already registered!</div>
 					</form>
 				</div>
 			</div>
 		</div>
 	</div>
-	
+
 	<!-- Footer -->
-	<footer class="py-4">
+	<footer class="mt-4 py-4">
 		<div class="row container mx-auto pt-4">
 			<div class="footer-one col-lg-3 col-md-5 col-12 mb-3">
 				<img src="img/logo.png" alt="">
@@ -307,11 +311,13 @@
 				</div>
 				<div>
 					<h6 class="text-uppercase">Github</h6>
-					<p>https://github.com/edamuutlu</p>  
+					<p>https://github.com/edamuutlu</p>
+					<p>https://github.com/nuricanbrdmr</p>
 				</div>
 				<div>
 					<h6 class="text-uppercase">Email</h6>
 					<p>edamuutlu@gmail.com</p>
+					<p>nuricanb6@gmail.com</p>
 				</div>
 			</div>
 			<div class="footer-one col-lg-3 col-md-6 col-12">
@@ -327,7 +333,7 @@
 			</div>
 			<div class="copyright mt-2">
 				<div class="row container mx-auto">
-					<div class="col-lg-4 col-md-6 col-12 mb-2">
+					<div class="col-lg-4 col-md-6 col-12 text-nowrap mb-2">
 						<p>Eda Nur Mutlu eInsurance © 2023. All Rights Reserved</p>
 					</div>
 				</div>
@@ -335,8 +341,17 @@
 		</div>
 	</footer>
 
-	<script src="/js/app.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+		crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+		integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+		crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"
+		integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS"
+		crossorigin="anonymous"></script>
 
+	<script src="/js/app.js"></script>
 </body>
 
 </html>
