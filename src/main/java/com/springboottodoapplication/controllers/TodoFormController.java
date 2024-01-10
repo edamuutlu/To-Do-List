@@ -24,17 +24,6 @@ public class TodoFormController {
     @Autowired
     private ICustomerRepository customerRepository;
 
-
-    @GetMapping("/edit/{id}")
-    public String showUpdateForm(@PathVariable("id") long id, Model model) {
-        TodoItem todoItem = todoItemRepository
-        .findById(id)
-        .orElseThrow(() -> new IllegalArgumentException("TodoItem id: " + id + " not found"));
-    
-        model.addAttribute("todo", todoItem);
-        return "update-todo-item";
-    }
-
     @GetMapping("/delete/{id}")
     public String deleteTodoItem(@PathVariable("id") long id, Model model) {
         TodoItem todoItem = todoItemRepository
@@ -48,7 +37,7 @@ public class TodoFormController {
         return "redirect:/userPage/" + customer.getUsername();
     }
 
-    @RequestMapping(path = { "/isCompleteItem/{id}"}, method = RequestMethod.GET)
+    @RequestMapping(path = {"/isCompleteItem/{id}"}, method = RequestMethod.GET)
     public String isCompleteItem(@PathVariable("id") long itemId, Model model) {
 
         Optional<TodoItem> optionalTodoItem = todoItemRepository.findById(itemId);
@@ -72,7 +61,6 @@ public class TodoFormController {
             
         } else {
             // TodoItem bulunamadı durumu
-            // Gerekli hata işlemleri veya geri dönüşler yapılabilir
         	return "/login";
         }
      

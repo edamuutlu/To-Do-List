@@ -10,8 +10,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
 import javax.persistence.Column;
-import lombok.Getter;
-import lombok.Setter;
 
 @Entity
 @Table(name = "todo_item")

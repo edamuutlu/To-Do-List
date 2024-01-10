@@ -55,11 +55,6 @@ public class LoginController {
 		return "login";
 	}
 
-	@GetMapping("/index")
-	public String index() {
-		return "index";
-	}
-
 	@GetMapping("/login")
 	public String login(@ModelAttribute Customer customer) {
 		return "login";

@@ -9,7 +9,6 @@ import com.springboottodoapplication.models.Customer;
 import com.springboottodoapplication.models.TodoItem;
 import com.springboottodoapplication.repositories.ICustomerRepository;
 import com.springboottodoapplication.repositories.ITodoItemRepository;
-import com.springboottodoapplication.services.TodoItemService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,9 +23,6 @@ public class TodoItemController {
 
     @Autowired
     private ITodoItemRepository todoItemRepository;
-    
-    @Autowired
-    private TodoItemService todoItemService;
     
     @Autowired
     private ICustomerRepository customerRepository;
@@ -71,7 +67,7 @@ public class TodoItemController {
     	    
     	}    	
     	
-        return "/login"; //?
+        return "/login"; 
     }
 
 }
