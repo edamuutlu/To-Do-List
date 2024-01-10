@@ -4,9 +4,11 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import com.springboottodoapplication.models.Customer;
 
+@Repository
 public interface ICustomerRepository extends JpaRepository<Customer, Long>{
 	
 	@Query("FROM Customer WHERE status=?1")
