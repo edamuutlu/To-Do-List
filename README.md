@@ -1,7 +1,5 @@
 # Spring Boot Todo Application
 
-![spring boot todo application]
-
 This is an ENTIRE application for Java Spring Boot
 built using:
 - Spring Data JPA
