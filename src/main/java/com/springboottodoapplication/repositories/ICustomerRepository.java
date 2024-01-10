@@ -27,5 +27,4 @@ public interface ICustomerRepository extends JpaRepository<Customer, Long>{
 	@Query("SELECT c FROM Customer c WHERE c.status = :status AND c.username = :username")
 	List<Customer> findByStatusAndUsername(int status, String username);
 
-
 }
