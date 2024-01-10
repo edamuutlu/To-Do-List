@@ -22,5 +22,7 @@ public interface ITodoItemRepository extends JpaRepository<TodoItem, Long> {
 	@Modifying
 	@Query("DELETE FROM TodoItem t WHERE t.customerId = ?1")
 	void deleteByCustomerId(int customerId);
+	
+	List<TodoItem> findByCustomerIdAndComplete(int customerId, boolean isComplete);
 
 }

@@ -85,8 +85,8 @@
 						<input type="hidden" th:name="username" th:value="${username}" />
 						<div class="mb-3">
 							<label class="form-label">Task Name</label>
-							<input type="text" class="form-control" id="taskName" name="taskName"
-								placeholder="Task.." required />
+							<input type="text" class="form-control" id="taskName" name="taskName" placeholder="Task.."
+								required />
 						</div>
 
 						<div class="mb-3">
@@ -116,7 +116,7 @@
 				</div>
 				<div class="modal-body">
 					<form id="updateForm" action="/todo" method="POST">
-						
+
 						<div class="mb-3">
 							<label class="form-label">Task Name</label>
 							<input type="text" class="form-control" id="updateTaskName" name="taskName"
@@ -225,7 +225,6 @@
 											<th scope="col">Id</th>
 											<th scope="col">Task Name</th>
 											<th scope="col">Description</th>
-											<!--											<th scope="col">Priority</th>-->
 											<th scope="col">Created Date</th>
 											<th scope="col">Modified Date</th>
 											<th scope="col">Complete</th>
@@ -239,8 +238,8 @@
 											<td th:text="${item.id}"></td>
 											<td th:text="${item.taskName}"></td>
 											<td th:text="${item.description}"></td>
-											<td th:text="${item.createdDate}"></td>
-											<td th:text="${item.modifiedDate}"></td>
+											<td th:text="${#dates.format(item.createdDate, 'dd.MM.yyyy HH:mm')}"></td>
+											<td th:text="${#dates.format(item.modifiedDate, 'dd.MM.yyyy HH:mm')}"></td>
 											<td><button class="mx-auto" th:data-complete="${item.complete}"><a
 														th:href="@{/isCompleteItem/{id}(id=${item.id})}"><i
 															class="bx bx-check check"></i></a></button></td>
@@ -262,42 +261,29 @@
 											<th scope="col">Id</th>
 											<th scope="col">Task Name</th>
 											<th scope="col">Description</th>
-											<th scope="col">Priority</th>
-											<th scope="col">Due Date</th>
-											<th scope="col">Completed</th>
+											<th scope="col">Created Date</th>
+											<th scope="col">Modified Date</th>
+											<th scope="col">Complete</th>
 											<th scope="col">Update</th>
 											<th scope="col">Delete</th>
 										</tr>
 									</thead>
-									<tbody>
 									<tbody class="todo-list">
 										<!-- Diğer görevler buraya eklenecek -->
-										<tr class="animated flipInX">
-											<td>1</td>
-											<td>Complete Project Proposal</td>
-											<td>Write a detailed project proposal and submit it by the end of the week.
-											</td>
-											<td>High</td>
-											<td>2024-01-31</td>
-											<td><button class="mx-auto"><a href="#"><i
+										<tr class="animated flipInX" th:each="item : ${activeToDoItems}">
+											<td th:text="${item.id}"></td>
+											<td th:text="${item.taskName}"></td>
+											<td th:text="${item.description}"></td>
+											<td th:text="${#dates.format(item.createdDate, 'dd.MM.yyyy HH:mm')}"></td>
+											<td th:text="${#dates.format(item.modifiedDate, 'dd.MM.yyyy HH:mm')}"></td>
+											<td><button class="mx-auto" th:data-complete="${item.complete}"><a
+														th:href="@{/isCompleteItem/{id}(id=${item.id})}"><i
 															class="bx bx-check check"></i></a></button></td>
-											<td><button class="mx-auto"><a href="#"><i
-															class="bx bxs-edit edit"></i></a></button></td>
-											<td><button class="mx-auto"><a href="#"><i
-															class="bx bx-trash trash"></i></a></button></td>
-										</tr>
-										<tr class="animated flipInX">
-											<td>2</td>
-											<td>Meeting with Team</td>
-											<td>Conduct a weekly team meeting to discuss project progress and
-												challenges.</td>
-											<td>Medium</td>
-											<td>2024-02-05</td>
-											<td><button class="mx-auto"><a href="#"><i
-															class="bx bx-check check"></i></a></button></td>
-											<td><button class="mx-auto"><a href="#"><i
-															class="bx bxs-edit edit"></i></a></button></td>
-											<td><button class="mx-auto"><a href="#"><i
+											<td><button class="mx-auto"
+													th:attr="data-itemId=${item.id}, data-taskName=${item.taskName}, data-description=${item.description}"
+													onclick="openUpdateModal(this)"><i
+														class="bx bxs-edit edit"></i></a></button></td>
+											<td><button class="mx-auto"><a th:href="@{/delete/{id}(id=${item.id})}"><i
 															class="bx bx-trash trash"></i></a></button></td>
 										</tr>
 									</tbody>
@@ -311,41 +297,29 @@
 											<th scope="col">Id</th>
 											<th scope="col">Task Name</th>
 											<th scope="col">Description</th>
-											<th scope="col">Priority</th>
-											<th scope="col">Due Date</th>
-											<th scope="col">Completed</th>
+											<th scope="col">Created Date</th>
+											<th scope="col">Modified Date</th>
+											<th scope="col">Complete</th>
 											<th scope="col">Update</th>
 											<th scope="col">Delete</th>
 										</tr>
 									</thead>
 									<tbody class="todo-list">
 										<!-- Diğer görevler buraya eklenecek -->
-										<tr class="animated flipInX">
-											<td>1</td>
-											<td>Complete Project Proposal</td>
-											<td>Write a detailed project proposal and submit it by the end of the week.
-											</td>
-											<td>High</td>
-											<td>2024-01-31</td>
-											<td><button class="mx-auto"><a href="#"><i
+										<tr class="animated flipInX" th:each="item : ${deactiveToDoItems}">
+											<td th:text="${item.id}"></td>
+											<td th:text="${item.taskName}"></td>
+											<td th:text="${item.description}"></td>
+											<td th:text="${#dates.format(item.createdDate, 'dd.MM.yyyy HH:mm')}"></td>
+											<td th:text="${#dates.format(item.modifiedDate, 'dd.MM.yyyy HH:mm')}"></td>
+											<td><button class="mx-auto" th:data-complete="${item.complete}"><a
+														th:href="@{/isCompleteItem/{id}(id=${item.id})}"><i
 															class="bx bx-check check"></i></a></button></td>
-											<td><button class="mx-auto"><a href="#"><i
-															class="bx bxs-edit edit"></i></a></button></td>
-											<td><button class="mx-auto"><a href="#"><i
-															class="bx bx-trash trash"></i></a></button></td>
-										</tr>
-										<tr class="animated flipInX">
-											<td>2</td>
-											<td>Meeting with Team</td>
-											<td>Conduct a weekly team meeting to discuss project progress and
-												challenges.</td>
-											<td>Medium</td>
-											<td>2024-02-05</td>
-											<td><button class="mx-auto"><a href="#"><i
-															class="bx bx-check check"></i></a></button></td>
-											<td><button class="mx-auto"><a href="#"><i
-															class="bx bxs-edit edit"></i></a></button></td>
-											<td><button class="mx-auto"><a href="#"><i
+											<td><button class="mx-auto"
+													th:attr="data-itemId=${item.id}, data-taskName=${item.taskName}, data-description=${item.description}"
+													onclick="openUpdateModal(this)"><i
+														class="bx bxs-edit edit"></i></a></button></td>
+											<td><button class="mx-auto"><a th:href="@{/delete/{id}(id=${item.id})}"><i
 															class="bx bx-trash trash"></i></a></button></td>
 										</tr>
 									</tbody>

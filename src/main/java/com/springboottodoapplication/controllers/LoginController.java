@@ -96,6 +96,13 @@ public class LoginController {
         
         List <TodoItem> todoItems = todoItemRepository.getCustomerById(customer.getCustomerId());
         model.addAttribute("todoItems", todoItems); 
+        
+        List <TodoItem> activeToDoItems = todoItemRepository.findByCustomerIdAndComplete(customer.getCustomerId(),false);
+        model.addAttribute("activeToDoItems", activeToDoItems); 
+        
+        List <TodoItem> deactiveToDoItems = todoItemRepository.findByCustomerIdAndComplete(customer.getCustomerId(),true);
+        model.addAttribute("deactiveToDoItems", deactiveToDoItems);
+        
         model.addAttribute("today", Instant.now().atZone(ZoneId.systemDefault()).toLocalDate().getDayOfWeek()); 
         model.addAttribute("username", customer.getUsername());
         model.addAttribute("customer", customer);
