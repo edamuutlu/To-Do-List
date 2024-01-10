@@ -1,10 +1,11 @@
 # Spring Boot Todo Application
 
-This is an ENTIRE application for Java Spring Boot
+This is an entire application for Java Spring Boot
 built using:
 - Spring Data JPA
 - H2 Database
 - Thymeleaf
+- JUnit Test
 
 ## Development Instructions
 
