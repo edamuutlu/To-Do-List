@@ -9,7 +9,7 @@
 		<version>2.7.0</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.wazooinc</groupId>
+	<groupId>com.springboottodoapplication</groupId>
 	<artifactId>spring-boot-todo-application</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>spring-boot-todo-application</name>
