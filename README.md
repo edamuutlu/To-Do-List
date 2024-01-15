@@ -12,9 +12,9 @@ built using:
 - `git clone https://github.com/edamuutlu/To-Do-List.git`
 - `cd spring-boot-todo-application`
 - open in favorite editor, 
-- open http://localhost:9090 and TODO away!
+- open http://localhost:8080 and TODO away!
 
-- If you wish to access the database, open http://localhost:9090/h2-console and enter 'admin' for both the username and password.
+- If you wish to access the database, open http://localhost:8080/h2-console and enter 'admin' for both the username and password.
 
 ## Application Interface
 
