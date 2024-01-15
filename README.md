@@ -21,7 +21,7 @@ built using:
 **Login Page**
 ![login](https://github.com/edamuutlu/To-Do-List/assets/112180102/cfcfa8b8-0e82-414f-b924-a7d4cad325b2)
 
-**Customer Registiration Page**
+**Customer Registration Page**
 ![register](https://github.com/edamuutlu/To-Do-List/assets/112180102/644bb236-08c2-4e76-acbc-b1de144648cb)
 
 **User Page**
